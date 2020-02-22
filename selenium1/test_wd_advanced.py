@@ -6,13 +6,15 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 import selenium1.utilities as utils
+from selenium.common.exceptions import NoSuchElementException
 
 # AGENDA: 
-    # methods for performing keyboard and mouse actions using Actions class
+    # methods for performing keyboard and mouse actions using ActionChains class
     # simulating mouse operations such as draand driop and double click
     # Running JacaScript code
     # capturing screenshots and movies of test runs
 
+print(utils.get_timestamp())
 
 def test_take_screenshots(browser):
     """takes screenshots if no element found"""
@@ -27,14 +29,27 @@ def test_take_screenshots(browser):
     # save screenshot with driver.save_screenshot(file) , use this path "./screenshots/timestamp.png"
     # log each step with print
 
-    # use the following Login steps we created previously
-    username = browser.find_element_by_xpath("//input[@id='username']")
-    passwrod = browser.find_element_by_xpath("//input[@id='password']")
-    login = browser.find_element_by_xpath("//i[@class='fa fa-2x fa-sign-in']")
-    username.send_keys("tomsmith")
-    passwrod.send_keys("SuperSecretPassword!")
-    login.click()
-    sleep(10)
+
+    try:
+        # use the following Login steps we created previously
+        print("loggin page started..")
+        username = browser.find_element_by_xpath("//input[@id='usernam']")
+        passwrod = browser.find_element_by_xpath("//input[@id='password']")
+        login = browser.find_element_by_xpath("//i[@class='fa fa-2x fa-sign-in']")
+        username.send_keys("tomsmith")
+        passwrod.send_keys("SuperSecretPassword!")
+        login.click()
+        print("logged in, taking screenshot")
+        sleep(10)
+        filepath = "./screenshots/"+ utils.get_timestamp() +".png"
+        browser.save_screenshot(filepath)
+        print('test completed!')
+
+    except NoSuchElementException:
+        print("Something went wrong!")
+        filepath = "./screenshots/error-"+ utils.get_timestamp() +".png"
+        browser.save_screenshot(filepath)
+        raise
 
 
 
@@ -53,8 +68,6 @@ def test_popup_window(browser):
     # submit,  take a screenshot, use break
     # switch back to main window
     # log each step with print
-
-
 
 
 
