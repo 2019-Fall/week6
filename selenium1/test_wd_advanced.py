@@ -8,6 +8,7 @@ from selenium.webdriver.common.keys import Keys
 import selenium1.utilities as utils
 from selenium.common.exceptions import NoSuchElementException
 
+
 # AGENDA: 
     # methods for performing keyboard and mouse actions using ActionChains class
     # simulating mouse operations such as draand driop and double click
@@ -33,7 +34,7 @@ def test_take_screenshots(browser):
     try:
         # use the following Login steps we created previously
         print("loggin page started..")
-        username = browser.find_element_by_xpath("//input[@id='usernam']")
+        username = browser.find_element_by_xpath("//input[@id='username']")
         passwrod = browser.find_element_by_xpath("//input[@id='password']")
         login = browser.find_element_by_xpath("//i[@class='fa fa-2x fa-sign-in']")
         username.send_keys("tomsmith")
@@ -52,7 +53,6 @@ def test_take_screenshots(browser):
         raise
 
 
-
 def test_popup_window(browser):
     """ Switching to new window and switch back."""
 
@@ -68,7 +68,27 @@ def test_popup_window(browser):
     # submit,  take a screenshot, use break
     # switch back to main window
     # log each step with print
+    parentHandle = browser.current_window_handle
+    element = browser.find_element_by_xpath("//button[@id='openwindow']")
+    element.click()
+    print("new window opened, getting the handles")
+    handles = browser.window_handles  # returns the list of all window handles
 
+    for handle in handles:
+        if handle != parentHandle:
+            browser.switch_to.window(handle)
+            print('switching to new window')
+            search = browser.find_element_by_xpath("//input[@id='search-courses']")
+            search.send_keys("python")
+            search.submit()
+            sleep(5)
+            print('search successfully executed, taking screenshot')
+            filepath = "./screenshots/window-"+ utils.get_timestamp() +".png"
+            browser.save_screenshot(filepath)
+    
+    browser.switch_to.window(parentHandle)
+    print('switched back to original window')
+    sleep(5)
 
 
 def test_execute_js(browser):
