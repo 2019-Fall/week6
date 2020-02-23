@@ -8,7 +8,7 @@ def browser():
     # driver = webdriver.Chrome(chrome_url)
     driver = webdriver.Chrome()
     driver.implicitly_wait(10)
-    # driver.maximize_window()
+    driver.maximize_window()
     yield driver
     # TEARDOWN (after your scope)
     # step: 6 - closing the browser
