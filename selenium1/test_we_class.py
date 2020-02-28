@@ -4,6 +4,8 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select, WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+import pytest
+
 
 # search_box = browser.find_element_by_xpath('search')
 # search_box.send_keys(Keys.ENTER)
@@ -31,8 +33,7 @@ def test_forms_textboxes(browser):
     assert expected_message == message.strip(), "Assert failed!!!"
 
     # verify logout button displayed, if displayed click logout
-    logout = browser.find_element_by_xpath(
-        "//i[@class='icon-2x icon-signout']")
+    logout = browser.find_element_by_xpath("//i[@class='icon-2x icon-signout']")
     if logout.is_displayed():
         logout.click()
     else:
@@ -68,7 +69,7 @@ def test_checkbox(browser):
 
     sleep(15)
 
-
+@pytest.mark.dropdowntest
 def test_dropdown(browser):
     url = "http://the-internet.herokuapp.com/dropdown"
 
@@ -76,6 +77,17 @@ def test_dropdown(browser):
     sleep(5)
     dropdown_element = browser.find_element_by_xpath("//select[@id='dropdown']")
     dropdown_list = Select(dropdown_element)
+    ddown_values = [value.text.strip() for value in browser.find_elements_by_xpath('//select/option')]
+    # ddown_values.sort()
+    print(ddown_values)
+    sorted_ddown_values = sorted(ddown_values)
+    print(sorted_ddown_values)
+
+    # assert ddown_values == sorted_ddown_values 
+    for sorted_value in sorted_ddown_values:
+         dropdown_list.select_by_visible_text(sorted_value)
+         sleep(5)
+
     print(dropdown_list.first_selected_option.text)
     assert dropdown_list.first_selected_option.text.strip() == "Please select an option"
     sleep(5)
