@@ -143,7 +143,7 @@ In this chapter, we will cover the following topics:
   * Automating JavaScript alerts and browser navigation
 
 #### Elements of HTML forms
-![HTML forms](/screenshots/html-dom.PNG)
+![HTML forms](/screenshots/html-dom.png)
 
 #### Examples:
 ##### Select class for Drop Down Lists
